@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+<div class="container">
+    <div class="team-single">
+        <div class="row">
+            <div class="col-lg-4 col-md-5 xs-margin-30px-bottom">
+                <div class="team-single-img">
+                    <center>
+                    <img src="{{object.capa.url}}" alt="">
+                </center>
+                </div>
+                <div class="bg-light-gray padding-30px-all md-padding-25px-all sm-padding-20px-all text-center">
+                    <h4 class="margin-10px-bottom font-size24 md-font-size22 sm-font-size20 font-weight-600">{{object.titulo_original}} </h4>
+                    {% if request.user.is_authenticated %}
+                        {% include 'animes/anime-buttons.html' %}
+                    {% endif %}
+                    <!-- <div class="margin-20px-top team-single-icons">
+                        <ul class="no-margin">
+                            <li><a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-7">
+                <div class="team-single-text padding-50px-left sm-no-padding-left">
+                    <h4 class="font-size38 sm-font-size32 xs-font-size30">
+                        {{object.titulo}}
+                        <small style="margin-left: 25%;">
+                            <i class="yellow star icon"> </i>{{object.nota_imdb}} 
+                        </small>
+                    </h4> 
+                    <small> {{object.c_indicativa}}</small> | 
+                    <small> {{object.ano_inicio}} - {{object.ano_termino}}</small> | 
+                    <small> {{object.categorias}}</small> | {{object.tempo_medio_ep}}min
+                    <small> </small>
+                    <p class="no-margin-bottom">
+                        {{object.sinopse|linebreaks}}
+                    </p>
+                    <div class="contact-info-section margin-40px-tb">
+                        <ul class="list-style9 no-margin">
+                            <li>
+
+                                <div class="row">
+                                    <div class="col-md-5 col-5">
+                                        <i class="green thumbs up icon"></i>
+                                        <strong class="">Assistido por</strong>
+                                    </div>
+                                    <div class="col-md-7 col-7">
+                                        <p>{{object.get_num_assistidos}} usuários</p>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <li>
+
+                                <div class="row">
+                                    <div class="col-md-5 col-5">
+                                        <i class="yellow check circle icon"></i>
+                                        <strong class="">Querem ver</strong>
+                                    </div>
+                                    <div class="col-md-7 col-7">
+                                        <p>{{object.get_num_querem_ver}} usuários</p>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <li>
+
+                                <div class="row">
+                                    <div class="col-md-5 col-5">
+                                        <i class="red heart icon"></i>
+                                        <strong class="">Favoritado </strong>
+                                    </div>
+                                    <div class="col-md-7 col-7">
+                                        <p>{{object.get_num_favoritos}}</p>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                            {% if object.autor %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-5 col-5">
+                                        <i class="user icon"></i>
+                                        <strong class="">Autor</strong>
+                                    </div>
+                                    <div class="col-md-7 col-7">
+                                        <p>{{object.autor}}</p>
+                                    </div>
+                                </div>
+
+                            </li>
+                            {% endif %}
+
+
+                            <li>
+
+                                <div class="row">
+                                    <div class="col-md-5 col-5">
+                                        <i class="tv icon"></i>
+                                        <strong class="">Episódios</strong>
+                                    </div>
+                                    <div class="col-md-7 col-7">
+                                        <p>{{object.num_toal_ep}} episódios{% if object.num_temporadas != 0 %}: {{object.num_temporadas}} temporadas {% if object.num_ep_temporada != 0 %} de {{object.num_ep_temporada}} partes {% endif %} {% endif %} 
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <!-- <li>
+                                <div class="row">
+                                    <div class="col-md-5 col-5">
+                                        <i class="fas fa-envelope text-pink"></i>
+                                        <strong class="margin-10px-left xs-margin-four-left text-pink">Email:</strong>
+                                    </div>
+                                    <div class="col-md-7 col-7">
+                                        <p><a href="javascript:void(0)">addyour@emailhere</a></p>
+                                    </div>
+                                </div>
+                            </li> -->
+                        </ul>
+                    </div>
+
+                    <div class="ui comments">
+                      <h3 class="ui dividing header">Comentários</h3>
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="ui success message">
+                              <i class="close icon"></i>
+                              <div class="header">
+                                {{message}}
+                              </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+
+                      {% for c in object.comentario_set.all %}
+                          <div class="comment">
+                            <a class="avatar">
+                              <img src="{{c.autor.avatar.url}}">
+                            </a>
+                            <div class="content">
+                              <a class="author">{{c.autor.primeiro_nome|title}}</a>
+                              <div class="metadata">
+                                <span class="date">{{c.data|timesince}} ago</span>
+                              </div>
+                              <div class="text">
+                                {{c.conteudo}}
+                              </div>
+                             <!--  <div class="actions">
+                                <a class="reply">Reply</a>
+                              </div> -->
+                            </div>
+                          </div>
+                      {% endfor %}
+                      <form class="ui reply form" method="POST">
+                        {% csrf_token %}
+                        {{c_form}}
+                        <button type="submit" class="ui active button">
+                          <i class="comments icon"></i>
+                          Comentar
+                        </button>
+                      </form>
+                    </div>
+
+                     <!-- 
+                    <h4 class="font-size30 sm-font-size25 xs-font-size20">Comentários</h4>
+                    <div class="sm-no-margin">
+                        <div class="progress-text">
+                            <div class="row">
+                                {{object.get_num_comentarios}} Comentário
+                            </div>
+                            <div class="row">
+                               {% for c in object.comentario_set.all %}
+                               <p> {{c.conteudo}} </p>
+                               {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="custom-progress progress">
+                            <div role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:90%" class="animated custom-bar progress-bar slideInLeft bg-sky"></div>
+                        </div>
+                        <div class="progress-text">
+                            <div class="row">
+                                <div class="col-7">Teamworking Abilities</div>
+                                <div class="col-5 text-right">50%</div>
+                            </div>
+                        </div>
+                        <div class="custom-progress progress">
+                            <div role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:50%" class="animated custom-bar progress-bar slideInLeft bg-orange"></div>
+                        </div>
+                        <div class="progress-text">
+                            <div class="row">
+                                <div class="col-7">Time Management </div>
+                                <div class="col-5 text-right">60%</div>
+                            </div>
+                        </div>
+                        <div class="custom-progress progress">
+                            <div role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:60%" class="animated custom-bar progress-bar slideInLeft bg-green"></div>
+                        </div>
+                        <div class="progress-text">
+                            <div class="row">
+                                <div class="col-7">Excellent Communication</div>
+                                <div class="col-5 text-right">80%</div>
+                            </div>
+                        </div>
+                        <div class="custom-progress progress">
+                            <div role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:80%" class="animated custom-bar progress-bar slideInLeft bg-yellow"></div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+
+            <div class="col-md-12">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

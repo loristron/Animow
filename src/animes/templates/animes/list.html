@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="ui four column grid">
+  	{% for object in object_list %}
+			{% include "animes/list-inline-2.html" with object=object truncated=True detail=False %}
+		{% endfor %}
+</div>
+{% endblock %}

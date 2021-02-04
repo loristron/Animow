@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+	<center>
+		
+	<img src="{{object.capa.url}}" alt="{{object.titulo}}" class="card-img-top p-3" style="max-width: 30%">
+	</center>
+	<div class="card-body">
+		<h5 class="card-title">{{object.titulo}} </h5>
+	<p class="card-text"><b>Título Original:</b> {{object.titulo_original}} <br>
+	<b>Sinopse: </b>{{object.sinopse}} <br>
+	<b>Nota: </b>{{object.nota}} <br>
+	<b>Total de Assistidos: </b> {{object.get_num_assistidos}} <br>
+	<b>Total Favoritdos: </b> {{object.get_num_favoritos}} <br>
+	<b>Querem Ver: </b> {{object.get_num_querem_ver}} <br>
+	<a href="../"><input type="button" value="voltar"></a>
+	{% if request.user.is_authenticated %}
+		{% include 'animes/anime-buttons.html' %}
+	{% endif %}
+
+{% endblock %}

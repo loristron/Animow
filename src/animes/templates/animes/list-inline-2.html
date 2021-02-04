@@ -1,0 +1,26 @@
+
+<div class="column"> 
+    <div class="ui fluid card">
+        <div class="image">
+            <img src="{{object.capa.url}}">
+        </div>
+    <div class="content">
+       <a class="header" href="{{object.get_absolute_url}}">{{object.titulo|title}}</a>
+    </div>
+    <div class="description p-2">
+    {% if truncated %}
+        {{object.sinopse|linebreaks|truncatewords:20}}
+    {% else %}
+        {{object.sinopse|linebreaks}}
+    {% endif %}
+    {% if not detail %}
+        <a href="{{object.get_absolute_url}}"> <button type="button" class="btn btn-link">Abrir</button></a>
+    {% endif %}
+    </div>
+    {% if request.user.is_authenticated %}
+        <div class="extra content">
+          {% include 'animes/anime-buttons.html' %}
+      </div>
+    {% endif %}
+  </div>
+</div>

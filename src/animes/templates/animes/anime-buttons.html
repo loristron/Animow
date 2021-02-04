@@ -1,0 +1,51 @@
+        {% if object in favoritos %}
+            <form method="POST" action="{% url 'animes:unfav-view' %}">
+              {% csrf_token %}
+              <input type="hidden" name="anime_id" value="{{object.id}}">
+               <button type="submit" class="tdn">
+                <i class="red heart icon"></i> Favorito 
+              </button>
+            </form>
+        {% else %}
+          <form method="POST" action="{% url 'animes:fav-view' %}">
+            {% csrf_token %}
+            <input type="hidden" name="anime_id" value="{{object.id}}">
+            <button type="submit" class="tdn" name="favoritar"><i class="heart outline icon"></i> Favoritar</button>
+          </form>
+        {% endif %}
+        <hr>
+        {% if object in assistidos %}
+            <form method="POST" action="{% url 'animes:remove_asistido_view' %}">
+              {% csrf_token %}
+              <input type="hidden" name="r_anime_id" value="{{object.id}}">
+              <button type="submit" name="remove_asistido" class="tdn">
+                <i class="green thumbs up icon"> </i> Assistido
+              </button>
+            </form>
+        {% else %}
+            <form method="POST" action="{% url 'animes:add-assistido-view' %}">
+              {% csrf_token %}
+              <input type="hidden" name="anime_id" value="{{object.id}}">
+              <button type="submit" class="tdn">
+                <i class="black thumbs up outline icon"> </i> Marcar como Assistido 
+              </button>
+            </form>
+        {% endif %}
+        <hr>
+        {% if object in quero_ver %}
+          <form method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" name="anime_id" value="{{object.id}}">
+            <button type="submit" class="tdn">
+              <i class="yellow check circle icon"></i> Quero Ver
+            </button>
+          </form>
+        {% else %}
+            <form method="POST" action="{% url 'animes:add-quero-ver-view' %}">
+              {% csrf_token %}
+              <input type="hidden" name="anime_id" value="{{object.id}}">
+              <button type="submit" class="tdn">
+                <i class="check circle outline icon"> </i> Quero Ver 
+              </button>
+            </form>
+        {% endif %}

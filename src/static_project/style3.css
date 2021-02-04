@@ -1,0 +1,14 @@
+.img-capa {
+	max-height: 100px !important;
+}
+
+.tdn {
+		
+  border: none !important;
+  padding: 0 !important;
+  background: none !important;
+}
+
+.tdn-link {
+	text-decoration: none !important;
+}
